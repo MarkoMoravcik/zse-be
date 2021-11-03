@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.zsebe.db.entity.ChangeLog;
+import com.example.zsebe.db.entity.Hello;
 import com.example.zsebe.db.entity.Person;
 import com.example.zsebe.service.PersonService;
 
@@ -35,8 +36,8 @@ public class PersonController {
   private final PersonService service;
 
   @RequestMapping(value = "/hello", produces = MediaType.APPLICATION_JSON_VALUE)
-  public String hello() {
-    return "Hello";
+  public Hello hello() {
+    return new Hello("Hello");
   }
 
   @GetMapping("/table-data")

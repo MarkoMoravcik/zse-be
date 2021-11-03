@@ -32,8 +32,8 @@ public class PersonController {
 
   private final PersonService service;
 
-  @GetMapping("/")
-  public String getPersons() {
+  @GetMapping("/hello")
+  public String hello() {
     return "Hello";
   }
 

@@ -2,6 +2,7 @@ package com.example.zsebe.db.entity;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,9 +31,15 @@ public class ChangeLog {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ChangeLogSequence")
   private Long id;
 
+  @Column
   private Long recordId;
 
+  @Column
   private Long userId;
+
+  @Column
   private String name;
+
+  @Column
   private LocalDateTime dateTime;
 }

@@ -1,16 +1,23 @@
 package com.example.zsebe.rest.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.zsebe.db.entity.ChangeLog;
@@ -24,6 +31,11 @@ import lombok.AllArgsConstructor;
 public class PersonController {
 
   private final PersonService service;
+
+  @GetMapping("/")
+  public String getPersons() {
+    return "Hello";
+  }
 
   @GetMapping("/table-data")
   public List<Person> getPersons(@RequestParam(name = "_sort") final String sortType,
@@ -58,16 +70,15 @@ public class PersonController {
     this.service.deletePersonData(id);
   }
 
-  // @ResponseStatus(HttpStatus.BAD_REQUEST)
-  // @ExceptionHandler({MethodArgumentNotValidException.class})
-  // public Map<String, String> handleValidationExceptions(final MethodArgumentNotValidException ex)
-  // {
-  // final Map<String, String> errors = new HashMap<>();
-  // ex.getBindingResult().getAllErrors().forEach((error) -> {
-  // final String fieldName = ((FieldError) error).getField();
-  // final String errorMessage = error.getDefaultMessage();
-  // errors.put(fieldName, errorMessage);
-  // });
-  // return errors;
-  // }
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler({MethodArgumentNotValidException.class})
+  public Map<String, String> handleValidationExceptions(final MethodArgumentNotValidException ex) {
+    final Map<String, String> errors = new HashMap<>();
+    ex.getBindingResult().getAllErrors().forEach((error) -> {
+      final String fieldName = ((FieldError) error).getField();
+      final String errorMessage = error.getDefaultMessage();
+      errors.put(fieldName, errorMessage);
+    });
+    return errors;
+  }
 }
